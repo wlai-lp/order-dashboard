@@ -33,12 +33,22 @@ async function getAccessToken() {
 
 export async function completeOrder(orderId: number) {
   try {
+    console.log("getting access token")
     const accessToken = await getAccessToken()
+    console.log("access token: " + accessToken)
     const orderCompletionEndpoint = process.env.ORDER_COMPLETION_ENDPOINT
 
     if (!orderCompletionEndpoint) {
       throw new Error('Order completion endpoint is not configured')
     }
+    
+    console.log("order completion endpoint: " + orderCompletionEndpoint)
+
+    const raw = JSON.stringify({
+      "timestamp": 1732287442754,
+      "headers": [],
+      "payload": {}
+    });
 
     const response = await fetch(orderCompletionEndpoint, {
       method: 'POST',
@@ -46,11 +56,14 @@ export async function completeOrder(orderId: number) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ orderId }),
+      body: raw,
     })
 
     if (!response.ok) {
       throw new Error('Failed to complete order on external system')
+    } else {
+      const data = await response.json()
+      console.log(JSON.stringify(data))
     }
 
     // const updated = updateOrder(orderId, 'completed')
