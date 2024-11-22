@@ -2,12 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { completeOrder } from '../actions/completeOrder'
-
-interface Order {
-  id: number
-  status: string
-  // Add other relevant fields
-}
+import { Order } from '../types/Order'
 
 export function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([])
@@ -29,16 +24,16 @@ export function Dashboard() {
 
   const handleCompleteOrder = async (orderId: number) => {
     try {
-      const result = await completeOrder(orderId)
-      if (result.success) {
+      const result = await completeOrder(orderId);
+      if (result && result.success) {
         setOrders(orders.map(order => 
           order.id === orderId ? { ...order, status: 'completed' } : order
-        ))
+        ));
       } else {
-        throw new Error(result.message)
+        throw new Error(result?.message || 'Unknown error');
       }
     } catch (error) {
-      alert(`Failed to complete order: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      alert(`Failed to complete order: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
 
