@@ -1,10 +1,6 @@
 'use server'
 
-import { updateOrder } from "../api/orders/route"
-
-// import { updateOrder } from '../api/orders/route';
-
-// import { updateOrder } from '../api/orders/route';
+// import { updateOrder } from '../api/orders/route'
 
 async function getAccessToken() {
   const clientId = process.env.AUTH_CLIENT_ID
@@ -57,12 +53,12 @@ export async function completeOrder(orderId: number) {
       throw new Error('Failed to complete order on external system')
     }
 
-    const updated = updateOrder(orderId, 'completed')
-    if (updated) {
-      return { success: true, message: 'Order completed successfully' }
-    } else {
-      return { success: false, message: 'Failed to update order status locally' }
-    }
+    // const updated = updateOrder(orderId, 'completed')
+    // if (updated) {
+    //   return { success: true, message: 'Order completed successfully' }
+    // } else {
+    //   return { success: false, message: 'Failed to update order status locally' }
+    // }
   } catch (error) {
     console.error('Error completing order:', error)
     return { success: false, message: 'An error occurred while completing the order' }
