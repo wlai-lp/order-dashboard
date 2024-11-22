@@ -1,10 +1,6 @@
 'use server'
 
-import { updateOrder } from "../api/orders/route"
-
-// import { updateOrder } from '../api/orders/route';
-
-// import { updateOrder } from '../api/orders/route';
+import { updateOrder } from '../api/orders/route'
 
 async function getAccessToken() {
   const clientId = process.env.AUTH_CLIENT_ID

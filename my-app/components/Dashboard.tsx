@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { completeOrder } from '../actions/completeOrder'
+import { completeOrder } from '@/app/actions/completeOrder'
+// import { completeOrder } from '../actions/completeOrder'
 
 interface Order {
   id: number
   status: string
-  convo: string
   // Add other relevant fields
 }
 
@@ -50,7 +50,6 @@ export function Dashboard() {
         {orders.map(order => (
           <div key={order.id} className="border p-4 rounded shadow">
             <h2 className="text-xl font-semibold">Order #{order.id}</h2>
-            <p className="mb-2">convo: {order.convo}</p>
             <p className="mb-2">Status: {order.status}</p>
             {order.status === 'pending' && (
               <button
