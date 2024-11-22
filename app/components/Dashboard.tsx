@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { completeOrder } from '@/app/actions/completeOrder'
-// import { completeOrder } from '../actions/completeOrder'
+import { completeOrder } from '../actions/completeOrder'
 
 interface Order {
   id: number
