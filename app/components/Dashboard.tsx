@@ -37,9 +37,27 @@ export function Dashboard() {
     }
   }
 
+  const handleDeleteOrder = async () => {
+    try {
+      const response = await fetch(`/api/orders?query=all`, { method: 'DELETE' });
+      if (!response.ok) {
+        throw new Error('Failed to delete order');
+      }
+      // setOrders(orders.filter(order => order.id!== orderId));
+    } catch (error) {
+      alert(`Failed to delete order: ${error instanceof Error? error.message : 'Unknown error'}`);
+    }
+  }
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Order Dashboard</h1>
+      <button
+                onClick={() => handleDeleteOrder()}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                Delete All Orders
+              </button>
       <div className="grid gap-4">
         {orders.map(order => (
           <div key={order.id} className="border p-4 rounded shadow">
