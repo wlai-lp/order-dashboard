@@ -31,14 +31,25 @@ async function getAccessToken() {
   return data.access_token
 }
 
-export async function completeOrder(orderId: number) {
+export async function completeOrder(orderId: number, convo: string) {
   try {
+    console.log("getting access token orderid ", orderId)
+    console.log("getting convo id ", convo)
     const accessToken = await getAccessToken()
+    console.log("access token: " + accessToken)
     const orderCompletionEndpoint = process.env.ORDER_COMPLETION_ENDPOINT
 
     if (!orderCompletionEndpoint) {
       throw new Error('Order completion endpoint is not configured')
     }
+    
+    console.log("order completion endpoint: " + orderCompletionEndpoint)
+
+    const raw = JSON.stringify({
+      "timestamp": Date.now(),
+      "headers": [],
+      "payload": { "convoId": convo}
+    });
 
     const response = await fetch(orderCompletionEndpoint, {
       method: 'POST',
@@ -46,11 +57,15 @@ export async function completeOrder(orderId: number) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({ orderId }),
+      body: raw,
     })
 
     if (!response.ok) {
       throw new Error('Failed to complete order on external system')
+    } else {
+      const data = await response.json()
+      console.log(JSON.stringify(data))
+      return { success: true, message: 'FaaS function executed' }
     }
 
     // const updated = updateOrder(orderId, 'completed')
