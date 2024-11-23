@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { completeOrder } from '../actions/completeOrder'
 import { Order } from '../types/Order'
+import Link from 'next/link'
 
 export function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([])
@@ -51,7 +52,13 @@ export function Dashboard() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Order Dashboard</h1>
+      {/* <h1 className="text-2xl font-bold mb-4">Order Dashboard</h1> */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Order Dashboard</h1>
+        <Link href="/env-dashboard" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Manage Env Variables
+        </Link>
+      </div>
       <button
                 onClick={() => handleDeleteOrder()}
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
