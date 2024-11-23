@@ -22,9 +22,9 @@ export function Dashboard() {
     return () => clearInterval(intervalId)
   }, [])
 
-  const handleCompleteOrder = async (orderId: number) => {
+  const handleCompleteOrder = async (orderId: number, convo: string) => {
     try {
-      const result = await completeOrder(orderId);
+      const result = await completeOrder(orderId, convo);
       if (result && result.success) {
         setOrders(orders.map(order => 
           order.id === orderId ? { ...order, status: 'completed' } : order
@@ -44,10 +44,11 @@ export function Dashboard() {
         {orders.map(order => (
           <div key={order.id} className="border p-4 rounded shadow">
             <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+            <p className="mb-2">Conversation Id: {order.convo}</p>
             <p className="mb-2">Status: {order.status}</p>
             {order.status === 'pending' && (
               <button
-                onClick={() => handleCompleteOrder(order.id)}
+                onClick={() => handleCompleteOrder(order.id, order.convo)}
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
               >
                 Complete Order

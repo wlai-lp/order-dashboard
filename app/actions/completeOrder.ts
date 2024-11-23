@@ -31,9 +31,10 @@ async function getAccessToken() {
   return data.access_token
 }
 
-export async function completeOrder(orderId: number) {
+export async function completeOrder(orderId: number, convo: string) {
   try {
-    console.log("getting access token")
+    console.log("getting access token orderid ", orderId)
+    console.log("getting convo id ", convo)
     const accessToken = await getAccessToken()
     console.log("access token: " + accessToken)
     const orderCompletionEndpoint = process.env.ORDER_COMPLETION_ENDPOINT
@@ -45,9 +46,9 @@ export async function completeOrder(orderId: number) {
     console.log("order completion endpoint: " + orderCompletionEndpoint)
 
     const raw = JSON.stringify({
-      "timestamp": 1732287442754,
+      "timestamp": Date.now(),
       "headers": [],
-      "payload": {}
+      "payload": { "convoId": convo}
     });
 
     const response = await fetch(orderCompletionEndpoint, {
@@ -64,6 +65,7 @@ export async function completeOrder(orderId: number) {
     } else {
       const data = await response.json()
       console.log(JSON.stringify(data))
+      return { success: true, message: 'FaaS function executed' }
     }
 
     // const updated = updateOrder(orderId, 'completed')
